@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>crx</groupId>
+	<artifactId>converter-spi</artifactId>
+	<version>0.0.8</version>
+	<name>Common Converter Service Provider Interface</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>mango-repo</id>
+			<name>Mango Solutions</name>
+			<url>http://maven.mango-solutions.com/ddmore</url>
+		</repository>
+		<repository>
+			<id>ebi-repo</id>
+			<name>European Bioinformatics Institute</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>eu.ddmore.pharmml</groupId>
+			<artifactId>libPharmML-PKMacro</artifactId>
+			<version>0.1.7-2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>crx</groupId>
+			<artifactId>converter-atomic</artifactId>
+			<version>0.0.8</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>crx</groupId>
+			<artifactId>converter-tree</artifactId>
+			<version>0.0.8</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.python</groupId>
+			<artifactId>jython-standalone</artifactId>
+			<version>2.5.3</version>
+		</dependency>
+	</dependencies>
+	
+	<organization>
+		<name>Cyprotex Discovery Limited</name>
+		<url>www.cyprotex.com</url>
+	</organization>
+</project>
