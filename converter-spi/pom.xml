@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>eu.ddmore.pharmml</groupId>
 			<artifactId>libPharmML-PKMacro</artifactId>
-			<version>0.1.7-2</version>
+			<version>0.1.9-1</version>
 		</dependency>
 		
 		<dependency>
