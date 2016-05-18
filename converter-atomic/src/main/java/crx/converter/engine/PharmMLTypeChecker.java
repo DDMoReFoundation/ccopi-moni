@@ -930,7 +930,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.commontypes.LinkFunction
 	 */
 	public static boolean isLinkFunction(Object o) { return o instanceof LinkFunction; }
-
+	
 	/**
 	 * Test if object is a local variable.
 	 * @param o Object
@@ -938,7 +938,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see VariableDefinition
 	 */
 	public static boolean isLocalVariable(Object o) { return o instanceof VariableDefinition; }
-	
+
 	/**
 	 * Test if object is a logical binary operation.
 	 * @param o Object
@@ -1123,7 +1123,6 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isOccasionSequence(Object o) { return o instanceof OccasionSequence; }
 	
-	
 	/**
 	 * Test if object is an Operation Property.
 	 * @param o Object
@@ -1132,6 +1131,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isOperationProperty(Object o) { return o instanceof OperationProperty; }
 	
+	
 	/**
 	 * Test if object is an Oral Macro.
 	 * @param o Object
@@ -1139,7 +1139,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.AbsorptionMacro 
 	 */
 	public static boolean isOralMacro(Object o) { return o instanceof OralMacro; }
-
+	
 	/**
 	 * Test if object is an Occasion Sequence.
 	 * @param o Object
@@ -1147,7 +1147,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see OccasionSequence 
 	 */
 	public static boolean isParameter(Object o) { return o instanceof Parameter; }
-	
+
 	/**
 	 * Test if object is a Parameter Estimate.
 	 * @param o Object
@@ -1172,7 +1172,6 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isParetoDistribution(Object o) { return o instanceof ParetoDistribution; }
 	
-	
 	/**
 	 * Test if object is an Effect Peripheral Macro 
 	 * @param o
@@ -1180,6 +1179,14 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.PeripheralMacro 
 	 */
 	public static boolean isPeripheralMacro(Object o) { return o instanceof PeripheralMacro; }
+	
+	
+	/**
+	 * Check if an object is an PharmML list type.
+	 * @param o Object
+	 * @return boolean
+	 */
+	public static boolean isPharmMLList(Object o) { return isVector(o) || isSequence(o); }
 	
 	/**
 	 * Test if an object is acting an an OID container.
