@@ -4,16 +4,7 @@
 
 package crx.converter.engine.assoc;
 
-import static crx.converter.engine.PharmMLTypeChecker.isBinaryOperation;
-import static crx.converter.engine.PharmMLTypeChecker.isContinuousValue;
-import static crx.converter.engine.PharmMLTypeChecker.isIndividualParameter;
-import static crx.converter.engine.PharmMLTypeChecker.isInt;
-import static crx.converter.engine.PharmMLTypeChecker.isNormalDistribution;
-import static crx.converter.engine.PharmMLTypeChecker.isPiecewise;
-import static crx.converter.engine.PharmMLTypeChecker.isReal;
-import static crx.converter.engine.PharmMLTypeChecker.isSymbolReference;
-import static crx.converter.engine.PharmMLTypeChecker.isUnaryOperation;
-import static crx.converter.engine.PharmMLTypeChecker.isVariableReference;
+import static crx.converter.engine.PharmMLTypeChecker.*;
 import static crx.converter.engine.Utils.getClassName;
 
 import java.util.List;
@@ -50,13 +41,14 @@ public abstract class DependencyLexer extends BaseEngine implements ILexer {
 	 * @param ref The model element looking for dependencies.
 	 * @param bt Binary Tree representation of another model element.
 	 */
-	protected void addDependency(DependencyRef ref, BinaryTree bt) {
+	public void addDependency(DependencyRef ref, BinaryTree bt) {
 		for (Node node : bt.nodes) {
 			Object e = node.data; 
 			if (isReal(e) || isNormalDistribution(e) || isInt(e) || 
-					e instanceof FixedEffectCategoryRef || 
-					isIndividualParameter(e) || isBinaryOperation(e) || isUnaryOperation(e)
-					) continue;
+				e instanceof FixedEffectCategoryRef || 
+				isIndividualParameter(e) || isBinaryOperation(e) || isUnaryOperation(e)
+				|| isProbOnto(e)) 
+				continue;
 			else if (isContinuousValue(e)) {
 				ContinuousValueType value = (ContinuousValueType) e;
 				if (value.getVar() != null) { 
@@ -75,7 +67,7 @@ public abstract class DependencyLexer extends BaseEngine implements ILexer {
 				tm.newInstance(e);
 				List<NestedTreeRef> ntrefs = tm.getNestedTrees();
 	 			for (NestedTreeRef ntref : ntrefs) addDependency(ref, ntref.bt);
-			}
+			} 
 			else 
 				throw new UnsupportedOperationException("Not recognised dependency class (name='" + getClassName(e) + "')");
 		}
