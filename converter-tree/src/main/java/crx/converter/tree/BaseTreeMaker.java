@@ -115,6 +115,7 @@ import eu.ddmore.libpharmml.dom.modellingsteps.ParameterEstimate;
 import eu.ddmore.libpharmml.dom.probonto.DistributionParameter;
 import eu.ddmore.libpharmml.dom.probonto.ProbOnto;
 import eu.ddmore.libpharmml.dom.trialdesign.DosingTimesPoints;
+import eu.ddmore.libpharmml.dom.trialdesign.DosingVariable;
 import eu.ddmore.libpharmml.dom.uncertml.AbstractCategoricalMultivariateDistributionType;
 import eu.ddmore.libpharmml.dom.uncertml.AbstractCategoricalUnivariateDistributionType;
 import eu.ddmore.libpharmml.dom.uncertml.AbstractContinuousUnivariateDistributionType;
@@ -814,6 +815,8 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		else throw new NullPointerException("Dosing time points not assigned a value.");
 	}
 	
+	private BinaryTree createTree(DosingVariable v) { return createTree(v.getAssign()); }
+	
 	/**
 	 * Create a binary tree of a Java Double value.
 	 * @param value Value
@@ -1425,7 +1428,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		Double v = r.getValue();
 		return createTree(v);
 	}
-	
+
 	/**
 	 * Create a binary tree of an RHS maths expression.
 	 * @param rhs Maths Expression
@@ -1440,7 +1443,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 
 		return bt;
 	}
-
+	
 	/**
 	 * Create a binary tree of a PharmML Scalar.
 	 * @param scalar Scalar Value
@@ -1568,7 +1571,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 	 * @return BinaryTree
 	 */
 	protected BinaryTree createTree(Uniop u_op) { return createTree(rhs(u_op, a)); }
-	
+
 	/**
 	 * Create a binary tree of a variable definition.
 	 * @param v Variable
@@ -1589,7 +1592,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		
 		return createTree(assignment);
 	}
-
+	
 	/**
 	 * Create a binary tree of an UncertML variable reference.
 	 * @param v
@@ -2345,11 +2348,11 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		else if (isMapType(o)) bt = createTree((MapType) o);
 		else if (isDistribution(o)) bt = createTree((Distribution) o);
 		else if (o instanceof FixedParameter) bt = createTree((FixedParameter) o);
+		else if (isDosingVariable(o)) bt = createTree((DosingVariable) o);
 		else {
-			//String msg = "Tree maker not supported (src='" + o + "'";
-			//if (o != null) msg = "Tree maker not supported (src='" + getClassName(o) + "')";
-			//throw new UnsupportedOperationException(msg);
-			bt = new BinaryTree();
+			String msg = "Tree maker not supported (src='" + o + "'";
+			if (o != null) msg = "Tree maker not supported (src='" + getClassName(o) + "')";
+			throw new UnsupportedOperationException(msg);
 		}
 		
 		return bt;

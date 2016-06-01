@@ -69,6 +69,7 @@ import eu.ddmore.libpharmml.dom.tags.PharmMLObject;
 import eu.ddmore.libpharmml.dom.trialdesign.Administration;
 import eu.ddmore.libpharmml.dom.trialdesign.ArmDefinition;
 import eu.ddmore.libpharmml.dom.trialdesign.Arms;
+import eu.ddmore.libpharmml.dom.trialdesign.DosingVariable;
 import eu.ddmore.libpharmml.dom.trialdesign.ExternalDataSet;
 import eu.ddmore.libpharmml.dom.trialdesign.Interventions;
 import eu.ddmore.libpharmml.dom.trialdesign.Observations;
@@ -409,6 +410,16 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 	 * @return eu.ddmore.libpharmml.dom.dataset.ColumnDefinition
 	 */
 	public ColumnDefinition fetchColumnDefinition(DataSet ds, String colName) { return fetchColumnDefinition(ds, new ColumnReference(colName)); }
+	
+	/**
+	 * Fetch the model element declared as a dosing variable.
+	 * @param target
+	 * @return PharmMLRootType
+	 */
+	public PharmMLRootType fetchElement(DosingVariable target) {
+		if (target == null) return null;
+		return fetchElement(target.getSymbRef());
+	}
 	
 	/**
 	 * Fetch a model element based on a level reference.
@@ -1099,6 +1110,7 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 		return false;
 	}
 	
+	
 	/**
 	 * Register a matrix declaration with a named variable.<br/>
 	 * Allows a code generator to get a variable name that is assigned to a matrix type.<br/>
@@ -1116,7 +1128,6 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 		
 		return false;
 	}
-	
 	
 	/**
 	 * Register a category list associated with an model element.
@@ -1228,7 +1239,7 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 		
 		return null;
 	}
-	
+
 	private PharmMLRootType search(String symbId, TimeToEventData tte) {
 		if (tte == null || symbId == null) return null;
 		
@@ -1258,7 +1269,7 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 	 	
 		return null;
 	}
-
+	
 	private PopulationParameter search_list5(String symbId, List<PopulationParameter> ps) {
 		if (symbId == null || ps == null) return null;
 		if (ps.isEmpty()) return null;

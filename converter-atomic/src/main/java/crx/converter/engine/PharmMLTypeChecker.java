@@ -129,6 +129,7 @@ import eu.ddmore.libpharmml.dom.trialdesign.Administration;
 import eu.ddmore.libpharmml.dom.trialdesign.ArmDefinition;
 import eu.ddmore.libpharmml.dom.trialdesign.Bolus;
 import eu.ddmore.libpharmml.dom.trialdesign.DosingTimesPoints;
+import eu.ddmore.libpharmml.dom.trialdesign.DosingVariable;
 import eu.ddmore.libpharmml.dom.trialdesign.Infusion;
 import eu.ddmore.libpharmml.dom.trialdesign.MultipleDVMapping;
 import eu.ddmore.libpharmml.dom.trialdesign.Observation;
@@ -600,7 +601,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see DiscreteDataParameter
 	 */
 	public static boolean isDiscreteDataParameter(Object o) { return o instanceof DiscreteDataParameter; }
-    
+	
 	/**
 	 * Test if object is an Discrete Multivariate Distribution.
 	 * @param o Object
@@ -608,7 +609,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.uncertml.AbstractDiscreteMultivariateDistributionType 
 	 */
 	public static boolean isDiscreteMultivariateDistribution(Object o) { return o instanceof AbstractDiscreteMultivariateDistributionType; }
-	
+    
 	/**
 	 * Test if object is an Discrete Multivariate Mixture Model.
 	 * @param o Object
@@ -657,6 +658,14 @@ public abstract class PharmMLTypeChecker {
 	 * @see DosingTimesPoints
 	 */
 	public static boolean isDosingTimesPoints(Object o) { return o instanceof DosingTimesPoints; }
+	
+	/**
+	 * Test if object is a Dosing Variable .
+	 * @param o
+	 * @return boolean
+	 * @see eu.ddmore.libpharmml.dom.trialdesign.DosingVariable
+	 */
+	public static boolean isDosingVariable(Object o) { return o instanceof DosingVariable; }
 	
 	/**
 	 * Test if object is a PharmML Double Valye.
