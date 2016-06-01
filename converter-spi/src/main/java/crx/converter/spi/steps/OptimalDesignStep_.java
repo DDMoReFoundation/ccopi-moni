@@ -7,6 +7,7 @@ package crx.converter.spi.steps;
 import java.util.List;
 
 import crx.converter.engine.FixedParameter;
+import eu.ddmore.libpharmml.dom.modeldefn.IndividualParameter;
 import eu.ddmore.libpharmml.dom.modeldefn.PopulationParameter;
 import eu.ddmore.libpharmml.dom.modellingsteps.OptimalDesignOperation;
 import eu.ddmore.libpharmml.dom.modellingsteps.OptimalDesignStep;
@@ -88,6 +89,12 @@ public interface OptimalDesignStep_ extends BaseStep  {
 	 */
 	public boolean isEvaluation();
 
+	/**
+	 * Flag if an Individual parameter is fixed or not.
+	 * @return boolean
+	 */
+	public boolean isFixed(IndividualParameter ip);
+	
 	/**
 	 * Flag if an optimisation task.
 	 * @return boolean
