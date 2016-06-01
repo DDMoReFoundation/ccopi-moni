@@ -60,4 +60,10 @@ public interface TrialDesignBlock extends Part {
 	 * @return java.util.List<eu.ddmore.libpharmml.dom.commontypes.DerivativeVariable>
 	 */
 	public List<DerivativeVariable> getStateVariablesWithDosing();
+	
+	/**
+	 * Flag if the trial design has occassions.
+	 * @return boolean
+	 */
+	public boolean hasOccassions();
 }
