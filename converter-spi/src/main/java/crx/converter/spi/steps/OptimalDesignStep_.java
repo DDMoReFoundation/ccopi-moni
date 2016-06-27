@@ -32,7 +32,7 @@ public interface OptimalDesignStep_ extends BaseStep  {
 
 	/**
 	 * Get the operations array bound to the OD step.
-	 * @return
+	 * @return OptimalDesignOperation[]
 	 */
 	public OptimalDesignOperation[] getOperations();
 	

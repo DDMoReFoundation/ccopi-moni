@@ -38,6 +38,7 @@ import eu.ddmore.libpharmml.dom.commontypes.Matrix;
 import eu.ddmore.libpharmml.dom.commontypes.MatrixCell;
 import eu.ddmore.libpharmml.dom.commontypes.MatrixCellValue;
 import eu.ddmore.libpharmml.dom.commontypes.MatrixSelector;
+import eu.ddmore.libpharmml.dom.commontypes.MatrixVectorIndex;
 import eu.ddmore.libpharmml.dom.commontypes.PharmMLRootType;
 import eu.ddmore.libpharmml.dom.commontypes.Product;
 import eu.ddmore.libpharmml.dom.commontypes.RealValue;
@@ -50,6 +51,8 @@ import eu.ddmore.libpharmml.dom.commontypes.Sum;
 import eu.ddmore.libpharmml.dom.commontypes.SymbolRef;
 import eu.ddmore.libpharmml.dom.commontypes.VariableDefinition;
 import eu.ddmore.libpharmml.dom.commontypes.Vector;
+import eu.ddmore.libpharmml.dom.commontypes.VectorSegmentSelector;
+import eu.ddmore.libpharmml.dom.commontypes.VectorSelector;
 import eu.ddmore.libpharmml.dom.commontypes.VectorValue;
 import eu.ddmore.libpharmml.dom.dataset.ColumnDefinition;
 import eu.ddmore.libpharmml.dom.dataset.ColumnReference;
@@ -201,7 +204,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		else if (isProbability(o)) rhs.setProbability((Probability) o);
 		else if (isMatrixUnaryOperation(o)) rhs.setMatrixUniop((MatrixUniOp) o);
 		else if (isMatrixSelector(o)) rhs.setMatrixSelector((MatrixSelector) o);
-		else if (isVectorSelector(o)) rhs.setMatrixSelector((MatrixSelector) o);
+		else if (isVectorSelector(o)) rhs.setVectorSelector((VectorSelector) o);
 		else if (isRhs(o)) {
 			Rhs assign = (Rhs) o;
 			assign(rhs, assign.getContent(), a);
@@ -1106,6 +1109,19 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 	}
 	
 	/**
+	 * Create a tree of a Matrix/Vector Index.
+	 * @param idx Matrix/Vector Index
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(MatrixVectorIndex idx) { 
+		if (idx.getAssign() != null) nested_trees.add(new NestedTreeRef(idx.getAssign(), createTree(idx.getAssign())));
+		if (idx.getIntValue() != null) nested_trees.add(new NestedTreeRef(idx.getIntValue(), createTree(idx.getIntValue())));
+		if (idx.getSymbolRef() != null) nested_trees.add(new NestedTreeRef(idx.getSymbolRef(), createTree(idx.getSymbolRef())));
+		
+		return createRootTree(idx, "MatrixVectorIndex"); 
+	}
+	
+	/**
 	 * Create a binary tree of a Natural Number.
 	 * @param v Natural Number
 	 * @return BinaryTree
@@ -1418,7 +1434,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		
 		return createRootTree(probOnto, getClassName(probOnto));
 	}
-	
+
 	/**
 	 * Create a binary tree of a real value.
 	 * @param r Value
@@ -1428,7 +1444,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		Double v = r.getValue();
 		return createTree(v);
 	}
-
+	
 	/**
 	 * Create a binary tree of an RHS maths expression.
 	 * @param rhs Maths Expression
@@ -1564,14 +1580,14 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		} else 
 			throw new NullPointerException("UncertML has no defintiion terms."); 
 	}
-	
+
 	/**
 	 * Create a binary tree of an unary operation.
 	 * @param u_op Unary Operation
 	 * @return BinaryTree
 	 */
 	protected BinaryTree createTree(Uniop u_op) { return createTree(rhs(u_op, a)); }
-
+	
 	/**
 	 * Create a binary tree of a variable definition.
 	 * @param v Variable
@@ -1613,6 +1629,41 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		doVector(bt, v);
 		
 		return bt;
+	}
+	
+	/**
+	 * Create trees linked to a vector segment selection
+	 * @param vss Vector Segment
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(VectorSegmentSelector vss) {
+		if (vss.getSegmentLength() != null) nested_trees.add(new NestedTreeRef(vss.getSegmentLength(), createTree(vss.getSegmentLength())));
+		if (vss.getStartIndex() != null) nested_trees.add(new NestedTreeRef(vss.getStartIndex(), createTree(vss.getStartIndex())));
+		
+		return createRootTree(vss, "VectorSegmentSelector");
+	}
+	
+	/**
+	 * Create a tree of a Vector Selector;
+	 * @param vs Vector Selector
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(VectorSelector vs) { 
+		List<PharmMLRootType> elements =  vs.getCellOrSegment();
+		if (elements != null) {
+			for (PharmMLRootType element : elements) {
+				if (isMatrixVectorIndex(element)) 
+					nested_trees.add(new NestedTreeRef((MatrixVectorIndex) element, createTree((MatrixVectorIndex) element)));
+				else if (isVectorSegmentSelector(element)) 
+					nested_trees.add(new NestedTreeRef((VectorSegmentSelector) element, createTree((VectorSegmentSelector) element)));
+			}
+		}
+		
+		if (vs.getHead() != null) nested_trees.add(new NestedTreeRef((MatrixVectorIndex) vs.getHead(), createTree((MatrixVectorIndex) vs.getHead())));
+		if (vs.getSymbRef() != null) nested_trees.add(new NestedTreeRef(vs.getSymbRef(), createTree(vs.getSymbRef())));
+		if (vs.getTail() != null) nested_trees.add(new NestedTreeRef((MatrixVectorIndex) vs.getTail(), createTree((MatrixVectorIndex) vs.getTail())));
+		
+		return createRootTree(vs, "VectorSelector"); 
 	}
 	
 	private void doBernoulliDistribution(BernoulliDistribution bd) {
@@ -2349,6 +2400,9 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		else if (isDistribution(o)) bt = createTree((Distribution) o);
 		else if (o instanceof FixedParameter) bt = createTree((FixedParameter) o);
 		else if (isDosingVariable(o)) bt = createTree((DosingVariable) o);
+		else if (isVectorSelector(o)) bt = createTree((VectorSelector) o);
+		else if (isMatrixVectorIndex(o)) bt = createTree((MatrixVectorIndex) o);
+		else if (isVectorSegmentSelector(o)) bt = createTree((VectorSegmentSelector) o);
 		else {
 			String msg = "Tree maker not supported (src='" + o + "'";
 			if (o != null) msg = "Tree maker not supported (src='" + getClassName(o) + "')";

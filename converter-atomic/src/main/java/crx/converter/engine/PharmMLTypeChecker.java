@@ -28,6 +28,7 @@ import eu.ddmore.libpharmml.dom.commontypes.Matrix;
 import eu.ddmore.libpharmml.dom.commontypes.MatrixCell;
 import eu.ddmore.libpharmml.dom.commontypes.MatrixCellSelector;
 import eu.ddmore.libpharmml.dom.commontypes.MatrixSelector;
+import eu.ddmore.libpharmml.dom.commontypes.MatrixVectorIndex;
 import eu.ddmore.libpharmml.dom.commontypes.PharmMLElement;
 import eu.ddmore.libpharmml.dom.commontypes.PharmMLRootType;
 import eu.ddmore.libpharmml.dom.commontypes.Product;
@@ -45,6 +46,7 @@ import eu.ddmore.libpharmml.dom.commontypes.VariableDefinition;
 import eu.ddmore.libpharmml.dom.commontypes.Vector;
 import eu.ddmore.libpharmml.dom.commontypes.VectorCell;
 import eu.ddmore.libpharmml.dom.commontypes.VectorSegment;
+import eu.ddmore.libpharmml.dom.commontypes.VectorSegmentSelector;
 import eu.ddmore.libpharmml.dom.commontypes.VectorSelector;
 import eu.ddmore.libpharmml.dom.dataset.ColumnDefinition;
 import eu.ddmore.libpharmml.dom.dataset.ColumnMapping;
@@ -1045,6 +1047,14 @@ public abstract class PharmMLTypeChecker {
 	public static boolean isMatrixUnaryOperation(Object o) { return o instanceof MatrixUniOp; }
 	
 	/**
+	 * Test if object is an Array Indices Variable
+	 * @param o Object
+	 * @return boolean
+	 * @see MatrixVectorIndex
+	 */
+	public static boolean isMatrixVectorIndex(Object o) { return o instanceof MatrixVectorIndex; }
+	
+	/**
 	 * Test if object is an Multinomial Distribution.
 	 * @param o Object
 	 * @return boolean
@@ -1132,6 +1142,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isOccasionSequence(Object o) { return o instanceof OccasionSequence; }
 	
+	
 	/**
 	 * Test if object is an Operation Property.
 	 * @param o Object
@@ -1140,7 +1151,6 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isOperationProperty(Object o) { return o instanceof OperationProperty; }
 	
-	
 	/**
 	 * Test if object is an Oral Macro.
 	 * @param o Object
@@ -1148,7 +1158,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.AbsorptionMacro 
 	 */
 	public static boolean isOralMacro(Object o) { return o instanceof OralMacro; }
-	
+
 	/**
 	 * Test if object is an Occasion Sequence.
 	 * @param o Object
@@ -1156,7 +1166,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see OccasionSequence 
 	 */
 	public static boolean isParameter(Object o) { return o instanceof Parameter; }
-
+	
 	/**
 	 * Test if object is a Parameter Estimate.
 	 * @param o Object
@@ -1181,6 +1191,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isParetoDistribution(Object o) { return o instanceof ParetoDistribution; }
 	
+	
 	/**
 	 * Test if object is an Effect Peripheral Macro 
 	 * @param o
@@ -1188,7 +1199,6 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.PeripheralMacro 
 	 */
 	public static boolean isPeripheralMacro(Object o) { return o instanceof PeripheralMacro; }
-	
 	
 	/**
 	 * Check if an object is an PharmML list type.
@@ -1634,6 +1644,14 @@ public abstract class PharmMLTypeChecker {
 	 * @see VectorSegment
 	 */
 	public static boolean isVectorSegment(Object o) { return o instanceof VectorSegment; }
+	
+	/**
+	 * Test if object is a vector segment selector.
+	 * @param o Object
+	 * @return boolean
+	 * @see VectorSegmentSelector
+	 */
+	public static boolean isVectorSegmentSelector(Object o) { return o instanceof VectorSegmentSelector; }
 	
 	/**
 	 * Test if object is a vector selector.

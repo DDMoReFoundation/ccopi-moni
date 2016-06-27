@@ -4,7 +4,19 @@
 
 package crx.converter.engine.assoc;
 
-import static crx.converter.engine.PharmMLTypeChecker.*;
+import static crx.converter.engine.PharmMLTypeChecker.isBinaryOperation;
+import static crx.converter.engine.PharmMLTypeChecker.isContinuousValue;
+import static crx.converter.engine.PharmMLTypeChecker.isIndividualParameter;
+import static crx.converter.engine.PharmMLTypeChecker.isInt;
+import static crx.converter.engine.PharmMLTypeChecker.isNormalDistribution;
+import static crx.converter.engine.PharmMLTypeChecker.isPiecewise;
+import static crx.converter.engine.PharmMLTypeChecker.isProbOnto;
+import static crx.converter.engine.PharmMLTypeChecker.isReal;
+import static crx.converter.engine.PharmMLTypeChecker.isSymbolReference;
+import static crx.converter.engine.PharmMLTypeChecker.isUnaryOperation;
+import static crx.converter.engine.PharmMLTypeChecker.isVariableReference;
+import static crx.converter.engine.PharmMLTypeChecker.isVector;
+import static crx.converter.engine.PharmMLTypeChecker.isVectorSelector;
 import static crx.converter.engine.Utils.getClassName;
 
 import java.util.List;
@@ -47,7 +59,7 @@ public abstract class DependencyLexer extends BaseEngine implements ILexer {
 			if (isReal(e) || isNormalDistribution(e) || isInt(e) || 
 				e instanceof FixedEffectCategoryRef || 
 				isIndividualParameter(e) || isBinaryOperation(e) || isUnaryOperation(e)
-				|| isProbOnto(e)) 
+				|| isProbOnto(e) || isVector(e) || isVectorSelector(e)) 
 				continue;
 			else if (isContinuousValue(e)) {
 				ContinuousValueType value = (ContinuousValueType) e;
