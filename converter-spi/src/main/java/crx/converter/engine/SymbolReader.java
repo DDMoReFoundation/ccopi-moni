@@ -39,8 +39,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import crx.converter.engine.common.ObservationParameter;
 import crx.converter.engine.common.BaseTabularDataset.ElementMapping;
+import crx.converter.engine.common.ObservationParameter;
+import crx.converter.engine.common.SimulationOutput;
 import crx.converter.spi.ILexer;
 import crx.converter.spi.IParser;
 import crx.converter.spi.blocks.ParameterBlock;
@@ -179,6 +180,11 @@ public class SymbolReader {
 	 */
 	public String get(Object element) {
 		String symbol =  "@";
+		
+		if (element instanceof SimulationOutput) {
+			SimulationOutput output = (SimulationOutput) element;
+			element = output.v;
+		}
 		
 		if (element instanceof String) {
 			symbol = (String) element;
