@@ -35,6 +35,8 @@ import eu.ddmore.libpharmml.dom.commontypes.SymbolRef;
 import eu.ddmore.libpharmml.dom.dataset.ColumnDefinition;
 import eu.ddmore.libpharmml.dom.dataset.ColumnReference;
 import eu.ddmore.libpharmml.dom.dataset.DataSet;
+import eu.ddmore.libpharmml.dom.dataset.MapType;
+import eu.ddmore.libpharmml.dom.dataset.TargetMapping;
 import eu.ddmore.libpharmml.dom.modeldefn.CategoricalData;
 import eu.ddmore.libpharmml.dom.modeldefn.CategoricalPMF;
 import eu.ddmore.libpharmml.dom.modeldefn.CommonDiscreteVariable;
@@ -418,7 +420,16 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 	 */
 	public PharmMLRootType fetchElement(DosingVariable target) {
 		if (target == null) return null;
-		return fetchElement(target.getSymbRef());
+		else if (target.getTargetMapping() != null) {
+			TargetMapping tm = target.getTargetMapping();
+			List<MapType> mappings = tm.getListOfMap();
+			if (mappings.isEmpty()) throw new IllegalStateException("Target mapping list is empty, no dose variable specified.");
+			else if (mappings.size() > 1) throw new IllegalStateException("Multiple dose targets not yet suppported for a single PharmML administration element.");
+			else if (mappings.size() == 1) return fetchElement(mappings.get(0).getModelSymbol());
+			else return null;
+		}
+		else if (target.getSymbRef() != null) return fetchElement(target.getSymbRef());
+		else return null;
 	}
 	
 	/**
