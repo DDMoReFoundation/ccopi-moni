@@ -818,7 +818,12 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		else throw new NullPointerException("Dosing time points not assigned a value.");
 	}
 	
-	private BinaryTree createTree(DosingVariable v) { return createTree(v.getAssign()); }
+	/**
+	 * Create a tree for a dosing variable
+	 * @param v Dosing Variable
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(DosingVariable v) { return createTree(v.getAssign()); }
 	
 	/**
 	 * Create a binary tree of a Java Double value.
