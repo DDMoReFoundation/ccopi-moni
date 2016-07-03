@@ -81,6 +81,9 @@ import eu.ddmore.libpharmml.dom.modeldefn.CountPMF;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateDefinition;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateRelation;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateTransformation;
+import eu.ddmore.libpharmml.dom.modeldefn.DSCategoricalCovariateType;
+import eu.ddmore.libpharmml.dom.modeldefn.DSCategoryType;
+import eu.ddmore.libpharmml.dom.modeldefn.DSCovariateDefinitionType;
 import eu.ddmore.libpharmml.dom.modeldefn.Dependance;
 import eu.ddmore.libpharmml.dom.modeldefn.DiscreteDataParameter;
 import eu.ddmore.libpharmml.dom.modeldefn.Distribution;
@@ -119,6 +122,8 @@ import eu.ddmore.libpharmml.dom.probonto.DistributionParameter;
 import eu.ddmore.libpharmml.dom.probonto.ProbOnto;
 import eu.ddmore.libpharmml.dom.trialdesign.DosingTimesPoints;
 import eu.ddmore.libpharmml.dom.trialdesign.DosingVariable;
+import eu.ddmore.libpharmml.dom.trialdesign.SingleDesignSpace;
+import eu.ddmore.libpharmml.dom.trialdesign.StageDefinition;
 import eu.ddmore.libpharmml.dom.uncertml.AbstractCategoricalMultivariateDistributionType;
 import eu.ddmore.libpharmml.dom.uncertml.AbstractCategoricalUnivariateDistributionType;
 import eu.ddmore.libpharmml.dom.uncertml.AbstractContinuousUnivariateDistributionType;
@@ -838,6 +843,44 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 	}
 	
 	/**
+	 * Create a binary tree of a design space categorical covariate. 
+	 * @param category Design Space Covariate
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(DSCategoricalCovariateType cat_cov) { 
+		if (cat_cov.getListOfCategory() != null) {
+			for (DSCategoryType category : cat_cov.getListOfCategory()) {
+				if (category == null) continue;
+				nested_trees.add(new NestedTreeRef(category, createTree(category)));
+			}
+		}
+		
+		return createRootTree(cat_cov, "DesignSpaceCategoricalCovariate"); 
+	}
+	
+	/**
+	 * Create a binary tree of a design space categorical covariate. 
+	 * @param category Design Space Covariate
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(DSCategoryType category) {
+		if (category.getProbability() != null) nested_trees.add(new NestedTreeRef(category.getProbability(), createTree(category.getProbability())));		
+		return createRootTree(category, "DesignSpaceCategory"); 
+	}
+	
+	/**
+	 * Create a binary tree of a design space covariate. 
+	 * @param type Design Space Covariate
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(DSCovariateDefinitionType cov) { 
+		if (cov.getCategorical() != null) nested_trees.add(new NestedTreeRef(cov.getCategorical(), createTree(cov.getCategorical())));
+		if (cov.getContinuous() != null) nested_trees.add(new NestedTreeRef(cov.getContinuous(), createTree(cov.getContinuous())));
+
+		return createRootTree(cov, "DesignSpaceCovariate"); 
+	}
+	
+	/**
 	 * Create a binary tree of an effect macro.
 	 * @param ref Macro
 	 * @return BinaryTree
@@ -1383,7 +1426,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		
 		return bt;
 	}
-	
+
 	/**
 	 * Create a binary tree of a probability assignment.
 	 * @param pa Assignment
@@ -1439,7 +1482,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		
 		return createRootTree(probOnto, getClassName(probOnto));
 	}
-
+	
 	/**
 	 * Create a binary tree of a real value.
 	 * @param r Value
@@ -1491,6 +1534,37 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 	}
 	
 	/**
+	 * Create a binary tree of a trial design space.
+	 * @param space Design Space
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(SingleDesignSpace space) { 
+		if (space.getArmSize() != null) nested_trees.add(new NestedTreeRef(space.getArmSize(), createTree(space.getArmSize())));
+		if (space.getAssign() != null) nested_trees.add(new NestedTreeRef(space.getAssign(), createTree(space.getAssign())));
+		if (space.getCovariateRef() != null) nested_trees.add(new NestedTreeRef(space.getCovariateRef(), createTree(space.getCovariateRef())));
+		if (space.getDoseAmount() != null) nested_trees.add(new NestedTreeRef(space.getDoseAmount(), createTree(space.getDoseAmount())));
+		if (space.getDosingTimes() != null) nested_trees.add(new NestedTreeRef(space.getDosingTimes(), createTree(space.getDosingTimes())));
+		if (space.getDuration() != null) nested_trees.add(new NestedTreeRef(space.getDuration(), createTree(space.getDuration())));
+		if (space.getNumberArms() != null) nested_trees.add(new NestedTreeRef(space.getNumberArms(), createTree(space.getNumberArms())));
+		if (space.getNumberSamples() != null) nested_trees.add(new NestedTreeRef(space.getNumberSamples(), createTree(space.getNumberSamples())));
+		if (space.getNumberTimes() != null) nested_trees.add(new NestedTreeRef(space.getNumberTimes(), createTree(space.getNumberTimes())));
+		if (space.getObservationTimes() != null) nested_trees.add(new NestedTreeRef(space.getObservationTimes(), createTree(space.getObservationTimes())));
+		if (space.getStageDefinition() != null) nested_trees.add(new NestedTreeRef(space.getStageDefinition(), createTree(space.getStageDefinition())));
+		
+		return createRootTree(space, "DesignSpace"); 
+	}
+	
+	/**
+	 * Create a binary tree for a stage referenced in a design space. 
+	 * @param stage Design Space Covariate
+	 * @return BinaryTree
+	 */
+	protected BinaryTree createTree(StageDefinition stage) {
+		if (stage.getLogicBinop() != null) nested_trees.add(new NestedTreeRef(stage.getLogicBinop(), createTree(stage.getLogicBinop())));		
+		return createRootTree(stage, "Stage"); 
+	}
+	
+	/**
 	 * Create a binary tree of a standard expression assignment.
 	 * @param sa Expression Assignment
 	 * @return BinaryTree
@@ -1514,7 +1588,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 	 * @return BinaryTree
 	 */
 	protected BinaryTree createTree(StringValue v) { return createRootTree(v, "String Value"); }
-	
+
 	/**
 	 * Create a binary tree of a symbol reference.
 	 * @param ref Symbol Reference
@@ -1585,7 +1659,7 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		} else 
 			throw new NullPointerException("UncertML has no defintiion terms."); 
 	}
-
+	
 	/**
 	 * Create a binary tree of an unary operation.
 	 * @param u_op Unary Operation
@@ -2408,6 +2482,11 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		else if (isVectorSelector(o)) bt = createTree((VectorSelector) o);
 		else if (isMatrixVectorIndex(o)) bt = createTree((MatrixVectorIndex) o);
 		else if (isVectorSegmentSelector(o)) bt = createTree((VectorSegmentSelector) o);
+		else if (isDesignSpace(o)) bt = createTree((SingleDesignSpace) o);
+		else if (isDesignSpaceCovariate(o)) bt = createTree((DSCovariateDefinitionType) o); 
+		else if (isDesignSpaceCategoricalCovariate(o)) bt = createTree((DSCategoricalCovariateType) o);
+		else if (isDesignSpaceCategory(o)) bt = createTree((DSCategoryType) o);
+		else if (isStage(o)) bt = createTree((StageDefinition) o);
 		else {
 			String msg = "Tree maker not supported (src='" + o + "'";
 			if (o != null) msg = "Tree maker not supported (src='" + getClassName(o) + "')";

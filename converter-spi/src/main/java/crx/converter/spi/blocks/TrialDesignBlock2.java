@@ -9,18 +9,41 @@ import java.util.Map;
 
 import crx.converter.engine.common.InterventionSequenceRef;
 import eu.ddmore.libpharmml.dom.commontypes.DerivativeVariable;
+import eu.ddmore.libpharmml.dom.commontypes.OidRef;
 import eu.ddmore.libpharmml.dom.commontypes.PharmMLRootType;
+import eu.ddmore.libpharmml.dom.trialdesign.Administration;
 import eu.ddmore.libpharmml.dom.trialdesign.ArmDefinition;
 import eu.ddmore.libpharmml.dom.trialdesign.Observation;
+import eu.ddmore.libpharmml.dom.trialdesign.SingleDesignSpace;
 import eu.ddmore.libpharmml.dom.trialdesign.TrialDesign;
 
 /**
  * Extended TrialDesign block implementing the trial design features introduced
  * into PharmML >= 0.8.1.<br/>
  * Required for more interpreter-based languages like PFIM, R, MATLAB, Python that
- * do not use NONMEM data frames to encode the trial design data.
+ * do not use NONMEM data frames to encode the trial design data.<br/>
+ * This interface design is based on the DDMoRe use cases (03/07/2016).
  */
 public interface TrialDesignBlock2 extends TrialDesignBlock {
+	/**
+	 * Get a named Administration
+	 * @param oid Object Identifier for the administration
+	 * @return Administration
+	 */
+	public Administration getAdministration(String oid);
+	
+	/**
+	 * Get the administration map.
+	 * @return Map<String, Administration>
+	 */
+	public Map<String, Administration> getAdministrationMap();
+	
+	/**
+	 * List of Administrations
+	 * @return List<Administration>
+	 */
+	public List<Administration> getAdministrations();
+	
 	/**
 	 * Get the dose time associated with an ad
 	 * @param admin_oid
@@ -46,6 +69,25 @@ public interface TrialDesignBlock2 extends TrialDesignBlock {
 	 * @return int
 	 */
 	public int getArmSize(String oid);
+	
+	/**
+	 * Get the map linking a design space to an observation window.
+	 * @return Map<SingleDesignSpace, Observation>
+	 */
+	public Map<SingleDesignSpace, Observation> getDesignSpaceObservationMap();
+	
+	/**
+	 * Get the design spaces declared in a trial design PharmML element.
+	 * @return List<SingleDesignSpace>
+	 */
+	List<SingleDesignSpace> getDesignSpaces();
+	
+	/**
+	 * Get a design space with the sampling count limits for an optimal design converter.
+	 * This is the NumberOfTimes property in a PharmML model.
+	 * @return SingleDesignSpace
+	 */
+	public SingleDesignSpace getDesignSpaceWithSamplingCountLimits();
 	
 	/**
 	 * Get the dose statement (a string) linked to a named administration.
@@ -95,10 +137,31 @@ public interface TrialDesignBlock2 extends TrialDesignBlock {
 	
 	/**
 	 * Get the named observation element
+	 * @param ref Observation Reference
+	 * @return Observation
+	 */
+	public Observation getObservation(OidRef ref);
+	
+	/**
+	 * Get the observation linked to a design space.
+	 * @param space Design Space
+	 * @return Observation
+	 */
+	public Observation getObservation(SingleDesignSpace space);
+	
+	/**
+	 * Get the named observation element
 	 * @param oid Observation Identifier
 	 * @return Observation
 	 */
 	public Observation getObservation(String oid);
+	
+	/**
+	 * Get the relative index of an observation/sampling window in a trial design.
+	 * @param ob_ref Observation
+	 * @return int
+	 */
+	public int getObservationIndex(OidRef ob_ref);
 	
 	/**
 	 * Get list of declared observations.
@@ -118,6 +181,19 @@ public interface TrialDesignBlock2 extends TrialDesignBlock {
 	 * @return java.util.List<eu.ddmore.libpharmml.dom.commontypes.DerivativeVariable>
 	 */
 	public List<DerivativeVariable> getStateVariablesWithDosing();
+	
+	/**
+	 * Get a named Administration
+	 * @param oid Object Identifier for the administration
+	 * @return boolean
+	 */
+	public boolean hasAdministration(String oid);
+	
+	/**
+	 * Check if a design space with the sampling count limits for an optimal design converter.
+	 * @return boolean
+	 */
+	public boolean hasDesignSpaceWithSamplingCountLimits();
 	
 	/**
 	 * Flag if a state variable is associated with a dosing event.
