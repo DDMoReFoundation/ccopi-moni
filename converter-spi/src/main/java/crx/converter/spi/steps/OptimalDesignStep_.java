@@ -18,24 +18,30 @@ import eu.ddmore.libpharmml.dom.modellingsteps.ParameterEstimate;
  */
 public interface OptimalDesignStep_ extends BaseStep  {
 	/**
+	 * Get the algorithm identifier bound to an OD step.
+	 * @return String
+	 */
+	public String getAlgorithm();
+	
+	/**
 	 * Retrieves the fixed parameter record associated with a parameter estimation.
 	 * @param p Parameter Variable name
 	 * @return FixedParameter
 	 */
 	public FixedParameter getFixedParameter(PopulationParameter p);
-	
+
 	/**
 	 * Get a list of fixed parameters.
 	 * @return java.util.List<FixedParameter>
 	 */
 	public List<FixedParameter> getFixedParameters();
-
+	
 	/**
 	 * Get the operations array bound to the OD step.
 	 * @return OptimalDesignOperation[]
 	 */
 	public OptimalDesignOperation[] getOperations();
-	
+
 	/**
 	 * Get the parameter estimate objedt associated with a parameter object.
 	 * @param p Parameter
@@ -88,7 +94,7 @@ public interface OptimalDesignStep_ extends BaseStep  {
 	 * @return boolean
 	 */
 	public boolean isEvaluation();
-
+	
 	/**
 	 * Flag if an Individual parameter is fixed or not.
 	 * @return boolean
