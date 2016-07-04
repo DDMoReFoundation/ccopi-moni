@@ -1548,7 +1548,15 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 		if (space.getNumberArms() != null) nested_trees.add(new NestedTreeRef(space.getNumberArms(), createTree(space.getNumberArms())));
 		if (space.getNumberSamples() != null) nested_trees.add(new NestedTreeRef(space.getNumberSamples(), createTree(space.getNumberSamples())));
 		if (space.getNumberTimes() != null) nested_trees.add(new NestedTreeRef(space.getNumberTimes(), createTree(space.getNumberTimes())));
-		if (space.getObservationTimes() != null) nested_trees.add(new NestedTreeRef(space.getObservationTimes(), createTree(space.getObservationTimes())));
+		
+		// Added code as MDL 8.0 generated PharmML may leave this element empty.
+		if (space.getObservationTimes() != null) {
+			if (space.getObservationTimes().getAssign() != null)
+				nested_trees.add(new NestedTreeRef(space.getObservationTimes(), createTree(space.getObservationTimes())));
+			else 
+				nested_trees.add(new NestedTreeRef(space.getObservationTimes(), createRootTree(space.getObservationTimes(), "EmptyObservationTimes")));
+		}
+		
 		if (space.getStageDefinition() != null) nested_trees.add(new NestedTreeRef(space.getStageDefinition(), createTree(space.getStageDefinition())));
 		
 		return createRootTree(space, "DesignSpace"); 
