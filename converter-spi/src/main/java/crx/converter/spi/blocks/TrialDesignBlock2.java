@@ -7,7 +7,9 @@ package crx.converter.spi.blocks;
 import java.util.List;
 import java.util.Map;
 
+import crx.converter.engine.common.ElementaryDesign;
 import crx.converter.engine.common.InterventionSequenceRef;
+import crx.converter.engine.common.Protocol;
 import eu.ddmore.libpharmml.dom.commontypes.DerivativeVariable;
 import eu.ddmore.libpharmml.dom.commontypes.OidRef;
 import eu.ddmore.libpharmml.dom.commontypes.PharmMLRootType;
@@ -22,7 +24,7 @@ import eu.ddmore.libpharmml.dom.trialdesign.TrialDesign;
  * into PharmML >= 0.8.1.<br/>
  * Required for more interpreter-based languages like PFIM, R, MATLAB, Python that
  * do not use NONMEM data frames to encode the trial design data.<br/>
- * This interface design is based on the DDMoRe use cases (03/07/2016).
+ * This interface design is based on the DDMoRe use cases (Dated=03/07/2016).
  */
 public interface TrialDesignBlock2 extends TrialDesignBlock {
 	/**
@@ -52,10 +54,30 @@ public interface TrialDesignBlock2 extends TrialDesignBlock {
 	public double getAdministrationStartTime(String admin_oid);
 	
 	/**
+	 * Get a named study arm.
+	 * @param arm_oid Arm Identifier
+	 * @return ArmDefinition
+	 */
+	public ArmDefinition getArm(String arm_oid);
+	
+	/**
 	 * Number of arms in the trial design.
 	 * @return int
 	 */
 	public int getArmCount();
+	
+	/**
+	 * Get the arms linked to an observation/sampling window.
+	 * @param ob
+	 * @return List<ArmDefinition>
+	 */
+	public List<ArmDefinition> getArmMembership(Observation ob);
+	
+	/**
+	 * Get a map of observations referenced by study arms.
+	 * @return Map<Observation, List<ArmDefinition>>
+	 */
+	public Map<Observation, List<ArmDefinition>> getArmMembershipMap();
 	
 	/**
 	 * Get a list of the processed arms.
@@ -80,7 +102,14 @@ public interface TrialDesignBlock2 extends TrialDesignBlock {
 	 * Get the design spaces declared in a trial design PharmML element.
 	 * @return List<SingleDesignSpace>
 	 */
-	List<SingleDesignSpace> getDesignSpaces();
+	public List<SingleDesignSpace> getDesignSpaces();
+	
+	/**
+	 * Get the design space linked to a sampling protocol.
+	 * @param protocol Protocol
+	 * @return Map<ElementaryDesign, List<SingleDesignSpace>>
+	 */
+	public Map<ElementaryDesign, List<SingleDesignSpace>> getDesignSpaces(Protocol protocol);
 	
 	/**
 	 * Get a design space with the sampling count limits for an optimal design converter.
@@ -175,6 +204,12 @@ public interface TrialDesignBlock2 extends TrialDesignBlock {
 	 * @return double
 	 */
 	public double getObservationStart(ArmDefinition arm);
+	
+	/**
+	 * Get the protocol associating an observation model to the observation/sampling windows.
+	 * @return List<Protocol>
+	 */
+	public List<Protocol> getProtocols();
 	
 	/**
 	 * Return a list of state variables that a linked to dosing events.

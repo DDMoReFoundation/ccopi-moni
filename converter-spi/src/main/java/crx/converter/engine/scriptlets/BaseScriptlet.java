@@ -17,7 +17,7 @@ public abstract class BaseScriptlet {
 	/**
 	 * Format for a python call (built-in function) and assignment
 	 */
-	protected static final String function_call_format = "%s = %s(%s)\n";
+	public static final String function_call_format = "%s = %s(%s)\n";
 	
 	/**
 	 * Scriptlet output variable for a maximum value from a list.

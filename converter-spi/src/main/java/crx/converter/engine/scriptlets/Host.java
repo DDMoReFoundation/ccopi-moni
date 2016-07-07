@@ -6,6 +6,7 @@ package crx.converter.engine.scriptlets;
 
 import org.python.core.PyObject;
 
+import crx.converter.spi.IParser;
 import crx.converter.tree.TreeMaker;
 
 /**
@@ -27,6 +28,12 @@ public interface Host {
 	 * @return String Python Code
 	 */
 	public String getFunctionImpl(PyFunctionName ref);
+	
+	/**
+	 * Expose the host Python statement parser.
+	 * @return IParser
+	 */
+	public IParser getParser();
 	
 	/**
 	 * Get the named result of post a scriptlet execution
