@@ -57,6 +57,7 @@ import eu.ddmore.libpharmml.dom.modeldefn.ParameterRandomVariable;
 import eu.ddmore.libpharmml.dom.modeldefn.PopulationParameter;
 import eu.ddmore.libpharmml.dom.modeldefn.ProbabilityAssignment;
 import eu.ddmore.libpharmml.dom.modeldefn.StructuralModel;
+import eu.ddmore.libpharmml.dom.modeldefn.StructuredObsError.Output;
 import eu.ddmore.libpharmml.dom.modeldefn.TTEFunction;
 import eu.ddmore.libpharmml.dom.modeldefn.TimeToEventData;
 import eu.ddmore.libpharmml.dom.modeldefn.TransformedCovariate;
@@ -71,6 +72,7 @@ import eu.ddmore.libpharmml.dom.tags.PharmMLObject;
 import eu.ddmore.libpharmml.dom.trialdesign.Administration;
 import eu.ddmore.libpharmml.dom.trialdesign.ArmDefinition;
 import eu.ddmore.libpharmml.dom.trialdesign.Arms;
+import eu.ddmore.libpharmml.dom.trialdesign.ContinuousObservation;
 import eu.ddmore.libpharmml.dom.trialdesign.DosingVariable;
 import eu.ddmore.libpharmml.dom.trialdesign.ExternalDataSet;
 import eu.ddmore.libpharmml.dom.trialdesign.Interventions;
@@ -468,6 +470,16 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 	}
 	
 	/**
+	 * Fetch the model element from an error model output reference.
+	 * @param output Output
+	 * @return PharmMLRootType
+	 */
+	public PharmMLRootType fetchElement(Output output) {
+		if (output == null) return null;
+		else return fetchElement(output.getSymbRef());
+	}
+	
+	/**
 	 * Fetch model element based on a symbol identifier.
 	 * @param symbId Model element name
 	 * @return PharmMLRootType
@@ -565,6 +577,28 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 		}
 		
 		return element;
+	}
+	
+	/**
+	 * Fetch the model element referenced in a continuous observation.
+	 * @param co Continuous Observation
+	 * @return List<PharmMLRootType>
+	 */
+	public List<PharmMLRootType> fetchElementList(ContinuousObservation co) {
+		List<PharmMLRootType> list = new ArrayList<PharmMLRootType>();
+		if (co != null) {
+			if (co.getListOfSymbRef() != null) {
+				for (SymbolRef ref : co.getListOfSymbRef()) {
+					if (ref == null) continue;
+					PharmMLRootType element = fetchElement(ref);
+					if (element != null) {
+						if (!list.contains(element)) list.add(element);
+					}
+				}
+			}
+		}
+		
+		return list;
 	}
 	
 	/**

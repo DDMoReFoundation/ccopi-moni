@@ -981,13 +981,32 @@ public abstract class PharmMLTypeChecker {
 	public static boolean isLinkFunction(Object o) { return o instanceof LinkFunction; }
 	
 	/**
+	 * Test if object is a PharmML list comprehension statement.
+	 * @param o Object
+	 * @return boolean
+	 * @see Vector
+	 * @see Sequence 
+	 */
+	public static boolean isList(Object o) {
+		if (isRhs(o)) {
+			Rhs rhs = (Rhs) o;
+			return isSequence(rhs.getContent()) || isVector(rhs.getContent());
+		} else if (isStandardAssignable(o)) {
+			StandardAssignable sa = (StandardAssignable) o;
+			if (sa.getAssign() != null) return isSequence(sa.getAssign().getContent()) || isVector(sa.getAssign().getContent());	
+		} 
+
+		return isSequence(o) || isVector(o); 
+	}
+	
+	/**
 	 * Test if object is a local variable.
 	 * @param o Object
 	 * @return boolean
 	 * @see VariableDefinition
 	 */
 	public static boolean isLocalVariable(Object o) { return o instanceof VariableDefinition; }
-	
+
 	/**
 	 * Test if object is a logical binary operation.
 	 * @param o Object
@@ -995,7 +1014,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see LogicBinOp
 	 */
 	public static boolean isLogicalBinaryOperation(Object o) { return o instanceof LogicBinOp; }
-
+	
 	/**
 	 * Test if object is a Logical Unary Operation.
 	 * @param o Object
@@ -1180,6 +1199,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isOccasionSequence(Object o) { return o instanceof OccasionSequence; }
 	
+	
 	/**
 	 * Test if object is an Operation Property.
 	 * @param o Object
@@ -1188,7 +1208,6 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isOperationProperty(Object o) { return o instanceof OperationProperty; }
 	
-	
 	/**
 	 * Test if object is an OptimalDesignStep.
 	 * @param o Object
@@ -1196,7 +1215,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see OptimalDesignStep
 	 */
 	public static boolean isOptimalDesignStep(Object o) { return o instanceof OptimalDesignStep; }
-	
+
 	/**
 	 * Test if object is an Oral Macro.
 	 * @param o Object
@@ -1204,7 +1223,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.AbsorptionMacro 
 	 */
 	public static boolean isOralMacro(Object o) { return o instanceof OralMacro; }
-
+	
 	/**
 	 * Test if object is an Occasion Sequence.
 	 * @param o Object
@@ -1229,6 +1248,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isParameterModel(Object o) { return o instanceof ParameterModel; }
 	
+	
 	/**
 	 * Test if object is a Parameter Model.
 	 * @param o Object
@@ -1236,7 +1256,6 @@ public abstract class PharmMLTypeChecker {
 	 * @see ParameterModel
 	 */
 	public static boolean isParetoDistribution(Object o) { return o instanceof ParetoDistribution; }
-	
 	
 	/**
 	 * Test if object is an Effect Peripheral Macro 
