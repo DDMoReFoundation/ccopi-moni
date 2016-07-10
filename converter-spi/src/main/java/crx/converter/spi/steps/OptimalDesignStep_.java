@@ -8,6 +8,7 @@ import java.util.List;
 
 import crx.converter.engine.FixedParameter;
 import eu.ddmore.libpharmml.dom.modeldefn.IndividualParameter;
+import eu.ddmore.libpharmml.dom.modeldefn.ParameterRandomVariable;
 import eu.ddmore.libpharmml.dom.modeldefn.PopulationParameter;
 import eu.ddmore.libpharmml.dom.modellingsteps.OptimalDesignOperation;
 import eu.ddmore.libpharmml.dom.modellingsteps.OptimalDesignStep;
@@ -36,6 +37,20 @@ public interface OptimalDesignStep_ extends BaseStep  {
 	 */
 	public List<FixedParameter> getFixedParameters();
 	
+	/**
+	 * Get a list of gammas linked to an Individual parameter.
+	 * @param ip Individual Parameter
+	 * @return List<ParameterRandomVariable>
+	 */
+	public List<ParameterRandomVariable> getGammas(IndividualParameter ip);
+	
+	/**
+	 * Get a list of omegas linked to an Individual parameter.
+	 * @param ip Individual Parameter
+	 * @return List<ParameterRandomVariable>
+	 */
+	public List<ParameterRandomVariable> getOmegas(IndividualParameter ip);
+
 	/**
 	 * Get the operations array bound to the OD step.
 	 * @return OptimalDesignOperation[]
@@ -88,7 +103,7 @@ public interface OptimalDesignStep_ extends BaseStep  {
 	 * @return boolean
 	 */
 	public boolean isConstrained();
-
+	
 	/**
 	 * Flag if an evaluation task.
 	 * @return boolean
@@ -100,7 +115,7 @@ public interface OptimalDesignStep_ extends BaseStep  {
 	 * @return boolean
 	 */
 	public boolean isFixed(IndividualParameter ip);
-	
+
 	/**
 	 * Flag if an optimisation task.
 	 * @return boolean

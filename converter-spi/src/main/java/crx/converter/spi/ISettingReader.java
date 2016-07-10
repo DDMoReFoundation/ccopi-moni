@@ -4,13 +4,10 @@
 
 package crx.converter.spi;
 
+import java.util.List;
 import java.util.Map;
 
-import eu.ddmore.libpharmml.dom.commontypes.PharmMLRootType;
-import eu.ddmore.libpharmml.dom.modellingsteps.Estimation;
 import eu.ddmore.libpharmml.dom.modellingsteps.OperationProperty;
-import eu.ddmore.libpharmml.dom.modellingsteps.OptimalDesignStep;
-import eu.ddmore.libpharmml.dom.modellingsteps.Simulation;
 
 /**
  * Set of basic methods to read a batch of settings bound to a modelling step.<br/>
@@ -24,7 +21,7 @@ public interface ISettingReader {
 	public Map<String, OperationProperty> getPropertyMap();
 	
 	/**
-	 * Get a named setting parsed to the target value.
+	 * Get a named setting parsed to the target language.
 	 * @param name
 	 * @return String
 	 */
@@ -61,11 +58,8 @@ public interface ISettingReader {
 	public void setParser(IParser p);
 	
 	/**
-	 * Set the PharmML step to read settings from.
-	 * @param step Modelling Step
-	 * @see Estimation
-	 * @see Simulation 
-	 * @see OptimalDesignStep
+	 * Register a settings list with the reader.
+	 * @param props
 	 */
-	public void setStep(PharmMLRootType step);
+	public void setProperties(List<OperationProperty> props);
 }
