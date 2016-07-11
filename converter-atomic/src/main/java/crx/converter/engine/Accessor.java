@@ -50,6 +50,7 @@ import eu.ddmore.libpharmml.dom.modeldefn.CovariateRelation;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateTransformation;
 import eu.ddmore.libpharmml.dom.modeldefn.Discrete;
 import eu.ddmore.libpharmml.dom.modeldefn.DiscreteDataParameter;
+import eu.ddmore.libpharmml.dom.modeldefn.FixedEffectRelation;
 import eu.ddmore.libpharmml.dom.modeldefn.ModelDefinition;
 import eu.ddmore.libpharmml.dom.modeldefn.ObservationError;
 import eu.ddmore.libpharmml.dom.modeldefn.ObservationModel;
@@ -417,7 +418,7 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 	public ColumnDefinition fetchColumnDefinition(DataSet ds, String colName) { return fetchColumnDefinition(ds, new ColumnReference(colName)); }
 	
 	/**
-	 * Fetch the model element linked to a covariate relation
+	 * Fetch the model element linked to a covariate relation.
 	 * @param cr covariate relation
 	 * @return PharmMLRootType
 	 */
@@ -448,6 +449,21 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 		}
 		else if (target.getSymbRef() != null) return fetchElement(target.getSymbRef());
 		else return null;
+	}
+	
+	/**
+	 * Fetch the model element linked to a fixed effect covariate relation.
+	 * @param fr Fixed effect covariate relation
+	 * @return PharmMLRootType
+	 */
+	public PharmMLRootType fetchElement(FixedEffectRelation fr) {
+		if (fr == null) return null;
+		else {
+			SymbolRef ref = fr.getSymbRef();
+			if (ref != null) return fetchElement(ref);
+		}
+		
+		return null;
 	}
 	
 	/**
