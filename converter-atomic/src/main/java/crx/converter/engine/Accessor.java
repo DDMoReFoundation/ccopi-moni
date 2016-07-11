@@ -46,6 +46,7 @@ import eu.ddmore.libpharmml.dom.modeldefn.CountData;
 import eu.ddmore.libpharmml.dom.modeldefn.CountPMF;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateDefinition;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateModel;
+import eu.ddmore.libpharmml.dom.modeldefn.CovariateRelation;
 import eu.ddmore.libpharmml.dom.modeldefn.CovariateTransformation;
 import eu.ddmore.libpharmml.dom.modeldefn.Discrete;
 import eu.ddmore.libpharmml.dom.modeldefn.DiscreteDataParameter;
@@ -414,6 +415,21 @@ DiscreteDataParameter 	getZeroProbabilityParameter()
 	 * @return eu.ddmore.libpharmml.dom.dataset.ColumnDefinition
 	 */
 	public ColumnDefinition fetchColumnDefinition(DataSet ds, String colName) { return fetchColumnDefinition(ds, new ColumnReference(colName)); }
+	
+	/**
+	 * Fetch the model element linked to a covariate relation
+	 * @param cr covariate relation
+	 * @return PharmMLRootType
+	 */
+	public PharmMLRootType fetchElement(CovariateRelation cr) {
+		if (cr == null) return null;
+		else {
+			SymbolRef ref = cr.getSymbRef();
+			if (ref != null) return fetchElement(ref);
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * Fetch the model element declared as a dosing variable.
