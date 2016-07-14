@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBElement;
 import eu.ddmore.libpharmml.dom.Identifiable;
 import eu.ddmore.libpharmml.dom.IndependentVariable;
 import eu.ddmore.libpharmml.dom.commontypes.BooleanValue;
+import eu.ddmore.libpharmml.dom.commontypes.CategoryRef;
 import eu.ddmore.libpharmml.dom.commontypes.CommonVariableDefinition;
 import eu.ddmore.libpharmml.dom.commontypes.Delay;
 import eu.ddmore.libpharmml.dom.commontypes.DelayVariable;
@@ -354,13 +355,20 @@ public abstract class PharmMLTypeChecker {
 	public static boolean isCategory(Object o) { return o instanceof Category; }
 	
 	/**
+	 * Test if an object is a category reference.
+	 * @param o Object
+	 * @return boolean
+	 */
+	public static boolean isCategoryRef(Object o) { return o instanceof  CategoryRef; }
+ 
+	/**
 	 * Test if object is an Categorical Relation.
 	 * @param o
 	 * @return boolean
 	 * @see CategoricalRelation
 	 */
 	public static boolean isCategoryRelation(Object o) { return o instanceof CategoricalRelation; }
- 
+	
 	/**
 	 * Test if object is a Cauchy Distribution.
 	 * @param o Object
@@ -440,7 +448,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see CommonVariableDefinition
 	 */
 	public static boolean isCommonVariable(Object o) { return o instanceof CommonVariableDefinition; }
-	
+
 	/**
 	 * Test if object is an Compartment Macro.
 	 * @param o
@@ -448,7 +456,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.CompartmentMacro 
 	 */
 	public static boolean isCompartmentMacro(Object o) { return o instanceof CompartmentMacro; }
-
+	
 	/**
 	 * Test if object is a Condition.
 	 * @param o
@@ -480,7 +488,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see ContinuousUnivariateMixtureModel
 	 */
 	public static boolean isContinuousUnivariateMixtureModel(Object o) { return o instanceof ContinuousUnivariateMixtureModel; }
-	
+ 
 	/**
 	 * Test if object is a Continuous Value Type.
 	 * @param o Object
@@ -488,7 +496,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see ContinuousValueType
 	 */
 	public static boolean isContinuousValue(Object o) { return o instanceof ContinuousValueType; }
- 
+	
 	/**
 	 * Test if object is a correlation.
 	 * @param o Object
@@ -528,7 +536,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see CovariateDefinition
 	 */
 	public static boolean isCovariate(Object o) { return o instanceof CovariateDefinition; }
-	
+   
 	/**
 	 * Test if object is a Covariate Relation.<br/>
 	 * That's a NMLE fixed effect.
@@ -537,7 +545,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see CovariateDefinition
 	 */
 	public static boolean isCovariateRelation(Object o) { return o instanceof CovariateRelation; }
-   
+	
 	/**
 	 * Test if object is a Covariate Transformation.
 	 * @param o Object 
@@ -649,7 +657,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.uncertml.AbstractDiscreteMultivariateDistributionType 
 	 */
 	public static boolean isDiscreteMultivariateDistribution(Object o) { return o instanceof AbstractDiscreteMultivariateDistributionType; }
-	
+    
 	/**
 	 * Test if object is an Discrete Multivariate Mixture Model.
 	 * @param o Object
@@ -657,7 +665,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.uncertml.DiscreteMultivariateMixtureModelType
 	 */
 	public static boolean isDiscreteMultivariateMixtureModel(Object o) { return o instanceof DiscreteMultivariateMixtureModelType; }
-    
+	
 	/**
 	 * Test if object is an Discrete Univariate Distribution.
 	 * @param o
@@ -730,7 +738,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see PharmMLElement
 	 */
 	public static boolean isElement(Object o) { return o instanceof PharmMLElement;	}
-	
+		
 	/**
 	 * Test if object is an Elimination Macro.
 	 * @param o
@@ -738,7 +746,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see eu.ddmore.libpharmml.dom.modeldefn.pkmacro.EliminationMacro 
 	 */
 	public static boolean isEliminationMacro(Object o) { return o instanceof EliminationMacro; }
-		
+	
 	/**
 	 * Test if object is an estimation step.
 	 * @param o Object
@@ -746,7 +754,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see Estimation
 	 */
 	public static boolean isEstimation(Object o) { return o instanceof Estimation; }
-	
+
 	/**
 	 * Test if object is an Exponential Distribution.
 	 * @param o Object
@@ -754,7 +762,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see ExponentialDistribution
 	 */
 	public static boolean isExponentialDistribution(Object o) { return o instanceof ExponentialDistribution; }
-
+	
 	/**
 	 * Test if object is a PharmML False value.
 	 * @param o Object
@@ -998,7 +1006,7 @@ public abstract class PharmMLTypeChecker {
 
 		return isSequence(o) || isVector(o); 
 	}
-	
+
 	/**
 	 * Test if object is a local variable.
 	 * @param o Object
@@ -1006,7 +1014,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see VariableDefinition
 	 */
 	public static boolean isLocalVariable(Object o) { return o instanceof VariableDefinition; }
-
+	
 	/**
 	 * Test if object is a logical binary operation.
 	 * @param o Object
@@ -1144,6 +1152,19 @@ public abstract class PharmMLTypeChecker {
 	public static boolean isNegativeBinomialDistribution(Object o) { return o instanceof NegativeBinomialDistribution; }
 	
 	/**
+	 * Test if an object is an nested piecewise statement.
+	 * @param o Element
+	 * @return boolean
+	 */
+	public static boolean isNestedPiecewise(Object o) {
+		if (isPiece(o)) {
+			Piece piece = (Piece) o;
+			return piece.getPiecewise() != null;
+		} else
+			return false;
+	}
+	
+	/**
 	 * Test if object is a Normal Distribution.
 	 * @param o Object
 	 * @return boolean
@@ -1183,6 +1204,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isObservationModel(Object o) { return o instanceof ObservationModel; }
 	
+	
 	/**
 	 * Test if object is an Occasion Sequence.
 	 * @param o Object
@@ -1198,8 +1220,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see OccasionSequence 
 	 */
 	public static boolean isOccasionSequence(Object o) { return o instanceof OccasionSequence; }
-	
-	
+
 	/**
 	 * Test if object is an Operation Property.
 	 * @param o Object
@@ -1215,7 +1236,7 @@ public abstract class PharmMLTypeChecker {
 	 * @see OptimalDesignStep
 	 */
 	public static boolean isOptimalDesignStep(Object o) { return o instanceof OptimalDesignStep; }
-
+	
 	/**
 	 * Test if object is an Oral Macro.
 	 * @param o Object
@@ -1232,6 +1253,7 @@ public abstract class PharmMLTypeChecker {
 	 */
 	public static boolean isParameter(Object o) { return o instanceof Parameter; }
 	
+	
 	/**
 	 * Test if object is a Parameter Estimate.
 	 * @param o Object
@@ -1247,7 +1269,6 @@ public abstract class PharmMLTypeChecker {
 	 * @see ParameterModel
 	 */
 	public static boolean isParameterModel(Object o) { return o instanceof ParameterModel; }
-	
 	
 	/**
 	 * Test if object is a Parameter Model.
