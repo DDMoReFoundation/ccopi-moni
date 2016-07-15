@@ -25,6 +25,13 @@ public enum VariableDeclarationContext {
 	DT("dosing_time"),
 	
 	/**
+	 * Flag that a variable is an externally assigned local.
+	 * Basically that means a globally accessible variable set with a value read from a file.
+	 * In CCoPI-speak, the variable usage has global scope.
+	 */
+	GLOBAL_SCOPE("global_scope"),
+	
+	/**
 	 * The scope of the variable is not known.<br>
 	 * This may indicate that the input model might be malformed.
 	 * Typically this will be trapped by a sub-system in the CC.

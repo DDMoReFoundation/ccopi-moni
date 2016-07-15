@@ -515,6 +515,12 @@ public interface ILexer extends ConverterProvider {
 	public boolean isIsolateConditionalDoseVariable(); 
 	
 	/**
+	 * Flag whether the converter should isolate globally scoped variables.
+	 * @return boolean
+	 */
+	public boolean isIsolateGloballyScopedVariables();
+	
+	/**
 	 * Flafg whether the NONMEM-style DT variable should be isolated from the variable list in a model.
 	 * @return boolean
 	 */
@@ -555,13 +561,13 @@ public interface ILexer extends ConverterProvider {
 	 * @return boolean
 	 */
 	public boolean isPermitEmptyTrialDesignBlock();
-	
+
 	/**
 	 * Flag that the converter should filter illegal characters from generated code.
 	 * @return boolean
 	 */
 	public boolean isRemoveIllegalCharacters();
-
+	
 	/**
 	 * Flag that the parser should write a persistence call for simulation output.<br/>
 	 * No need to write output to file if just doing an estimation.
@@ -692,6 +698,12 @@ public interface ILexer extends ConverterProvider {
 	 * The default setting is true.
 	 */
 	public void setIsolateDoseTimingVariable(boolean decision);
+	
+	/**
+	 * Set whether the converter should isolate globally scoped variables
+	 * @param decision Decision
+	 */
+	public void setIsolateGloballyScopedVariables(boolean decision);
 	
 	/**
 	 * Flag that the converter should 'lex' the PharmML model but does not attempt to create any code.
@@ -851,7 +863,7 @@ public interface ILexer extends ConverterProvider {
 	 * Call to add nested tree references to the statement map if a collection is created by the tree maker.
 	 * @see TreeMaker#getNestedTrees()
 	 */
-	public void updateNestedTrees();
+	public void updateNestedTrees(); 
 	
 	/**
 	 * Flag whether a block linked to a converter should maintain a cached dependency list.

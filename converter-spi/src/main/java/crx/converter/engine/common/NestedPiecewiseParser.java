@@ -61,7 +61,6 @@ public abstract class NestedPiecewiseParser extends BaseParser {
 	 * the piecewise assignment context.
 	 * @param element Model element
 	 * @param value Default Value
-	 * @see NestedPiecewiseParser#setCurrentPiecewiseContext(Object)
 	 */
 	abstract public String getDefaultPiecewiseAssignmentValue(Object element, Object value);
 	
