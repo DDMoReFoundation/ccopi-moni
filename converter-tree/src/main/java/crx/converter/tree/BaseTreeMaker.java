@@ -1469,6 +1469,9 @@ public class BaseTreeMaker extends BaseEngine implements TreeMaker {
 	}
 	
 	private BinaryTree createTree(ProbOnto probOnto) {
+		if (probOnto.getRealisation() != null) nested_trees.add(new NestedTreeRef(probOnto, createTree(probOnto.getRealisation())));
+		if (probOnto.getWeight() != null) nested_trees.add(new NestedTreeRef(probOnto, createTree(probOnto.getWeight())));
+		
 		List<DistributionParameter> params = probOnto.getListOfParameter();
 		if (params != null) {
 			for (DistributionParameter param : params) {
