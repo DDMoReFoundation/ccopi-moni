@@ -9,6 +9,7 @@ import static crx.converter.engine.PharmMLTypeChecker.isCovariate;
 import static crx.converter.engine.PharmMLTypeChecker.isCovariateTransform;
 import static crx.converter.engine.PharmMLTypeChecker.isDerivative;
 import static crx.converter.engine.PharmMLTypeChecker.isDiscreteDataParameter;
+import static crx.converter.engine.PharmMLTypeChecker.isDistributionParameter;
 import static crx.converter.engine.PharmMLTypeChecker.isElement;
 import static crx.converter.engine.PharmMLTypeChecker.isFunction;
 import static crx.converter.engine.PharmMLTypeChecker.isFunctionCall;
@@ -66,6 +67,9 @@ import eu.ddmore.libpharmml.dom.modeldefn.StructuredObsError.Output;
 import eu.ddmore.libpharmml.dom.modeldefn.StructuredObsError.ResidualError;
 import eu.ddmore.libpharmml.dom.modeldefn.TransformedCovariate;
 import eu.ddmore.libpharmml.dom.modeldefn.VariabilityLevelDefinition;
+import eu.ddmore.libpharmml.dom.probonto.DistributionParameter;
+import eu.ddmore.libpharmml.dom.probonto.ParameterName;
+
 
 /**
  * Symbol Reader formats model element names to a more language specific 'friendly' form.
@@ -81,7 +85,7 @@ public class SymbolReader {
 		
 		/**
 		 * Default constructor
-		 * @param src_ Model Element to read an indentifier.
+		 * @param src_ Model Element to read an identifier.
 		 * @param original_value_ Original Name
 		 * @param modified_value_ Modified Name
 		 */
@@ -267,6 +271,10 @@ public class SymbolReader {
 		} else if (isVariabilityLevelDefinition(element)) {
 			VariabilityLevelDefinition level = (VariabilityLevelDefinition) element;
 			symbol = level.getSymbId();
+		} else if (isDistributionParameter(element)) {
+			DistributionParameter dist = (DistributionParameter) element;
+			ParameterName name = dist.getName();
+			if (name != null) symbol = name.toString();
 		} else {
 			if (element == null) element = "NULL";
 			String format = "WARNING: Unknown symbol, %s\n";
